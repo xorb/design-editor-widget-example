@@ -19,14 +19,15 @@ function App() {
     };
 
     return () => {
-      head.removeChild(link);
-      document.removeChild(script);
+      // head.removeChild(link);
+      // document.removeChild(script);
     };
   }, []);
   return (
-    <div>
-      <div id="design_editor_widget"></div>
-    </div>
+    <div
+      style={{ height: "100vh", width: "100vw" }}
+      id="design_editor_widget"
+    ></div>
   );
 }
 
