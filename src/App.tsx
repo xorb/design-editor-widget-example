@@ -14,13 +14,10 @@ function App() {
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
-    script.onload = () => {
-      console.log("SCRIPT LOADED");
-    };
 
     return () => {
-      // head.removeChild(link);
-      // document.removeChild(script);
+      head.removeChild(link);
+      document.body.removeChild(script);
     };
   }, []);
   return (
