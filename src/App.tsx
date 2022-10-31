@@ -1,31 +1,61 @@
 import React from "react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  useDisclosure,
+  Box,
+  Button,
+  Portal,
+} from "@chakra-ui/react";
 
 function App() {
-  React.useEffect(() => {
-    const head = document.head;
-    const link = document.createElement("link");
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.href = "https://xorb.github.io/design-editor-widget/index.widget.css";
-    head.appendChild(link);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  return (
+    <Box>
+      <Button onClick={onOpen}>Open editor</Button>
+      {isOpen && <Editor isOpen={isOpen} onClose={onClose} />}
+    </Box>
+  );
+}
+
+const Editor = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  React.useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://xorb.github.io/design-editor-widget/index.widget.js";
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
-
     return () => {
-      head.removeChild(link);
       document.body.removeChild(script);
     };
   }, []);
-  return (
-    <div
-      style={{ height: "100vh", width: "100vw" }}
-      id="design_editor_widget"
-    ></div>
-  );
-}
 
+  return (
+    <Modal size={"full"} isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <Portal>
+        <ModalContent
+          sx={{
+            height: "100vh",
+            width: "100vw",
+            display: "flex",
+          }}
+        >
+          <div
+            style={{ height: "100%", width: "100%", display: "flex", flex: 1 }}
+            id="design_editor_widget"
+          ></div>
+        </ModalContent>
+      </Portal>
+    </Modal>
+  );
+};
 export default App;
